@@ -11,7 +11,7 @@ public class Product {
     private int id;
     private String type;
     private String name;
-    private Long balance;
+    private long balance;
 
     public int getId() {
         return id;
@@ -37,7 +37,7 @@ public class Product {
         this.name = name;
     }
 
-    public Long getBalance() {
+    public long getBalance() {
         return balance;
     }
 
