@@ -3,17 +3,16 @@ package com.enviro.assessment.grad001.ThuthukaniMthiyane.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "customer")
-public class Investor {
+@Table(name = "investor")
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String fullName;
+    private String fullname;
     private int age;
-    private String homeAddress;
-    private String emailAddress;
-    private String contactNumber;
+    private String email;
+    private String contactnumber;
 
     public int getId() {
         return id;
@@ -24,11 +23,11 @@ public class Investor {
     }
 
     public String getFullName() {
-        return fullName;
+        return fullname;
     }
 
     public void setFullName(String fullName) {
-        this.fullName = fullName;
+        this.fullname = fullName;
     }
 
     public int getAge() {
@@ -39,28 +38,20 @@ public class Investor {
         this.age = age;
     }
 
-    public String getHomeAddress() {
-        return homeAddress;
+    public String getEmail() {
+        return email;
     }
 
-    public void setHomeAddress(String homeAddress) {
-        this.homeAddress = homeAddress;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setEmail(String emailAddress) {
+        this.email = emailAddress;
     }
 
     public String getContactNumber() {
-        return contactNumber;
+        return contactnumber;
     }
 
     public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
+        this.contactnumber = contactNumber;
     }
 
 
