@@ -29,7 +29,7 @@ This Spring Boot project is designed for handling withdrawal notices. It leverag
 
 To get started with this project, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/assessment.grad001.ThuthukaniMthiyane.git`
+1. Clone the repository: `git clone https://github.com/mzwili/WithDrawal-Notice.git`
 2. Navigate to the project directory: `cd assessment.grad001.ThuthukaniMthiyane`
 3. Build the project: `mvn clean install`
 4. Run the application: `mvn spring-boot:run`
@@ -42,7 +42,7 @@ The project follows a standard Maven project structure. Key packages include:
 - `com.enviro.assessment.grad001.ThuthukaniMthiyane.controller`: Controllers
 - `com.enviro.assessment.grad001.ThuthukaniMthiyane.service`: Services
 - `com.enviro.assessment.grad001.ThuthukaniMthiyane.repository`: Repositories
-- `com.enviro.assessment.grad001.ThuthukaniMthiyane.model`: Model classes
+- `com.enviro.assessment.grad001.ThuthukaniMthiyane.entity`: Entity classes
 
 ## Building and Running
 
