@@ -41,7 +41,7 @@ public class Product {
         return balance;
     }
 
-    public void setBalance(Long balance) {
+    public void setBalance(long balance) {
         this.balance = balance;
     }
 

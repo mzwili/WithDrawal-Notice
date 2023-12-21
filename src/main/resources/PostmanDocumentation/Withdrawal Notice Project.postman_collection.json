@@ -1,0 +1,384 @@
+{
+	"info": {
+		"_postman_id": "53adc1d5-1110-4e94-ad5b-b00326da9c2c",
+		"name": "Withdrawal Notice Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26655007",
+		"_collection_link": "https://aluve-calendar.postman.co/workspace/Team-Workspace~6f2112d7-2162-455e-8980-916f704c71cb/collection/26655007-53adc1d5-1110-4e94-ad5b-b00326da9c2c?action=share&source=collection_link&creator=26655007"
+	},
+	"item": [
+		{
+			"name": "Withdrawal Notice",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": [
+				{
+					"name": "user investments",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/investments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"investments"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 21 Dec 2023 09:29:04 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"type\": \"Savings\",\n        \"name\": \"Moment Fund\",\n        \"balance\": 52000\n    },\n    {\n        \"id\": 2,\n        \"type\": \"Retirement\",\n        \"name\": \"Ned Trust\",\n        \"balance\": 1705370\n    }\n]"
+				},
+				{
+					"name": "user insufficient funds notice",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/notice?productName=Moment Fund&withdrawalAmount=60000&date=21/12/23&bankName=FNB&bankAccountNumber=34568900083",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"notice"
+							],
+							"query": [
+								{
+									"key": "productName",
+									"value": "Moment Fund"
+								},
+								{
+									"key": "withdrawalAmount",
+									"value": "60000"
+								},
+								{
+									"key": "date",
+									"value": "21/12/23"
+								},
+								{
+									"key": "bankName",
+									"value": "FNB"
+								},
+								{
+									"key": "bankAccountNumber",
+									"value": "34568900083"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 21 Dec 2023 09:39:06 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"finalNotice\": \"InSufficient Funds\"\n}"
+				},
+				{
+					"name": "user over 90% fund withdrawal",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/notice?productName=Moment Fund&withdrawalAmount=50000&date=21/12/23&bankName=FNB&bankAccountNumber=34568900083",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"notice"
+							],
+							"query": [
+								{
+									"key": "productName",
+									"value": "Moment Fund"
+								},
+								{
+									"key": "withdrawalAmount",
+									"value": "50000"
+								},
+								{
+									"key": "date",
+									"value": "21/12/23"
+								},
+								{
+									"key": "bankName",
+									"value": "FNB"
+								},
+								{
+									"key": "bankAccountNumber",
+									"value": "34568900083"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 21 Dec 2023 09:40:16 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"finalNotice\": \"Withdrawal amount greater then 90% of Balance\"\n}"
+				},
+				{
+					"name": "user successful withdrawal notice",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/notice?productName=Moment Fund&withdrawalAmount=1000&date=21/12/23&bankName=FNB&bankAccountNumber=34568900083",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"notice"
+							],
+							"query": [
+								{
+									"key": "productName",
+									"value": "Moment Fund"
+								},
+								{
+									"key": "withdrawalAmount",
+									"value": "1000"
+								},
+								{
+									"key": "date",
+									"value": "21/12/23"
+								},
+								{
+									"key": "bankName",
+									"value": "FNB"
+								},
+								{
+									"key": "bankAccountNumber",
+									"value": "34568900083"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 21 Dec 2023 09:41:47 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"finalNotice\": \"Email Notification sent\"\n}"
+				},
+				{
+					"name": "user information",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/details",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"details"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 21 Dec 2023 09:43:22 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"age\": 35,\n    \"email\": \"mzwilidev@gmail.com\",\n    \"fullName\": \"Sam Smith\",\n    \"contactNumber\": \"083 568 0000\"\n}"
+				},
+				{
+					"name": "user retirement fund withdrawal",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/notice?productName=Ned Trust&withdrawalAmount=56000&date=21/12/23&bankName=FNB&bankAccountNumber=34568900083",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"notice"
+							],
+							"query": [
+								{
+									"key": "productName",
+									"value": "Ned Trust"
+								},
+								{
+									"key": "withdrawalAmount",
+									"value": "56000"
+								},
+								{
+									"key": "date",
+									"value": "21/12/23"
+								},
+								{
+									"key": "bankName",
+									"value": "FNB"
+								},
+								{
+									"key": "bankAccountNumber",
+									"value": "34568900083"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 21 Dec 2023 11:56:21 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"finalNotice\": \"Ineligible for withdrawal\"\n}"
+				}
+			]
+		}
+	]
+}
