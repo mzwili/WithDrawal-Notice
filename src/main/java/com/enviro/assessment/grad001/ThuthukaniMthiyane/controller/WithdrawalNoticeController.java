@@ -34,8 +34,8 @@ public class WithdrawalNoticeController {
 
     @PostMapping("/notice")
     public NoticeResponse noticeNotification(@RequestParam("productName")String productName, @RequestParam("withdrawalAmount")long withdrawalAmount,
-                                            @RequestParam("date")String date, @RequestParam("bankName")String bankName, @RequestParam("bankAmount")long bankAmount){
-        withdrawalNoticeServiceImpl.withdrawalProcess(productName,withdrawalAmount,date,bankName,bankAmount);
+                                            @RequestParam("date")String date, @RequestParam("bankName")String bankName, @RequestParam("bankAccountNumber")long bankAccountNumber){
+        withdrawalNoticeServiceImpl.withdrawalProcess(productName,withdrawalAmount,date,bankName,bankAccountNumber);
         noticeMessage = new NoticeResponse(withdrawalNoticeServiceImpl.withdrawalResponse());
         return noticeMessage;
     }
