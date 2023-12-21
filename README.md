@@ -34,6 +34,11 @@ To get started with this project, follow these steps:
 3. Build the project: `mvn clean install`
 4. Run the application: `mvn spring-boot:run`
 
+## Email Configuration
+
+Step by step guide for sending emails Link by GeeksforGeeks
+https://www.geeksforgeeks.org/spring-boot-sending-email-via-smtp/
+
 ## Project Structure
 
 The project follows a standard Maven project structure. Key packages include:
