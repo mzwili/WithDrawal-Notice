@@ -1,13 +1,10 @@
 package com.enviro.assessment.grad001.ThuthukaniMthiyane.service;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.entity.Customer;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.repository.CustomerRepository;

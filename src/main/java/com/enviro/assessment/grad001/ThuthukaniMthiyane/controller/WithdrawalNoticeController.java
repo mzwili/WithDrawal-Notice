@@ -1,12 +1,13 @@
 package com.enviro.assessment.grad001.ThuthukaniMthiyane.controller;
 
-import com.enviro.assessment.grad001.ThuthukaniMthiyane.POJO.NoticeResponse;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.entity.Customer;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.entity.Product;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.service.CustomerServiceImpl;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.service.ProductServiceImpl;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.service.WithdrawalNoticeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,24 +22,38 @@ public class WithdrawalNoticeController {
     private CustomerServiceImpl  customerServiceImpl;
     @Autowired
     private WithdrawalNoticeServiceImpl withdrawalNoticeServiceImpl;
-    private NoticeResponse noticeMessage;
+
 
     @GetMapping("/details")
-    public Customer getUserDetails(){
-        return  customerServiceImpl.getCustomer();
-    };
+    public ResponseEntity<Customer> getUserDetails(){
+        try {
+            return  new ResponseEntity<>(customerServiceImpl.getCustomer(), HttpStatus.OK);
+        }catch (RuntimeException e){
+            return new ResponseEntity<>(customerServiceImpl.getCustomer(), HttpStatus.NOT_FOUND);
+        }
+
+    }
     @GetMapping("/investments")
-    public List<Product> getAllUsers() {
-        return productServiceImpl.getAllProduct();
-    };
+    public ResponseEntity<List<Product>> getAllUsers() {
+        try {
+            return new ResponseEntity<>(productServiceImpl.getAllProduct(), HttpStatus.OK);
+        }catch (RuntimeException e){
+            return new ResponseEntity<>(productServiceImpl.getAllProduct(),HttpStatus.NOT_FOUND);
+        }
+    }
 
     @PostMapping("/notice")
-    public NoticeResponse noticeNotification(@RequestParam("productName")String productName, @RequestParam("withdrawalAmount")long withdrawalAmount,
+    public ResponseEntity<String> noticeNotification(@RequestParam("productName")String productName, @RequestParam("withdrawalAmount")long withdrawalAmount,
                                             @RequestParam("date")String date, @RequestParam("bankName")String bankName, @RequestParam("bankAccountNumber")long bankAccountNumber){
-        withdrawalNoticeServiceImpl.withdrawalProcess(productName,withdrawalAmount,date,bankName,bankAccountNumber);
-        noticeMessage = new NoticeResponse(withdrawalNoticeServiceImpl.withdrawalResponse());
-        return noticeMessage;
+       try {
+           withdrawalNoticeServiceImpl.withdrawalProcess(productName,withdrawalAmount,date,bankName,bankAccountNumber);
+       }catch (RuntimeException ex){
+          return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+       }
+        return new ResponseEntity<>("Notification Sent", HttpStatus.OK);
     }
+
+
 
 
 }
