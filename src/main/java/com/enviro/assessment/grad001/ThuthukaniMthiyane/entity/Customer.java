@@ -9,10 +9,13 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String fullname;
+    private String fullName;
     private int age;
     private String email;
-    private String contactnumber;
+
+    private String contactNumber;
+
+    private String password;
 
     public int getId() {
         return id;
@@ -22,13 +25,6 @@ public class Customer {
         this.id = id;
     }
 
-    public String getFullName() {
-        return fullname;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullname = fullName;
-    }
 
     public int getAge() {
         return age;
@@ -46,13 +42,28 @@ public class Customer {
         this.email = emailAddress;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getContactNumber() {
-        return contactnumber;
+        return contactNumber;
     }
 
     public void setContactNumber(String contactNumber) {
-        this.contactnumber = contactNumber;
+        this.contactNumber = contactNumber;
     }
-
 
 }

@@ -1,5 +1,6 @@
 package com.enviro.assessment.grad001.ThuthukaniMthiyane.controller;
 
+import com.enviro.assessment.grad001.ThuthukaniMthiyane.dto.WithDrawDTO;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.entity.Customer;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.entity.Product;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.service.CustomerServiceImpl;
@@ -7,6 +8,7 @@ import com.enviro.assessment.grad001.ThuthukaniMthiyane.service.ProductServiceIm
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.service.WithdrawalNoticeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,11 +44,10 @@ public class WithdrawalNoticeController {
         }
     }
 
-    @PostMapping("/notice")
-    public ResponseEntity<String> noticeNotification(@RequestParam("productName")String productName, @RequestParam("withdrawalAmount")long withdrawalAmount,
-                                            @RequestParam("date")String date, @RequestParam("bankName")String bankName, @RequestParam("bankAccountNumber")long bankAccountNumber){
+    @PostMapping(value = "/notice", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    public ResponseEntity<String> noticeNotification(WithDrawDTO withdrawal){
        try {
-           withdrawalNoticeServiceImpl.withdrawalProcess(productName,withdrawalAmount,date,bankName,bankAccountNumber);
+           withdrawalNoticeServiceImpl.withdrawalProcess(withdrawal);
        }catch (RuntimeException ex){
           return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
        }

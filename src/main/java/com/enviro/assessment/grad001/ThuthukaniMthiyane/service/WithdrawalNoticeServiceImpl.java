@@ -1,13 +1,16 @@
 package com.enviro.assessment.grad001.ThuthukaniMthiyane.service;
 
+import com.enviro.assessment.grad001.ThuthukaniMthiyane.dto.WithDrawDTO;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.entity.Customer;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.entity.Product;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.interfaces.WithdrawalNoticeService;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.repository.CustomerRepository;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -25,19 +28,16 @@ public class WithdrawalNoticeServiceImpl implements WithdrawalNoticeService {
 
 
     @Override
-    public void withdrawalProcess(String productName, Long withdrawalAmount, String date,
-                                  String bankName, long bankAccountNumber)
+    public void withdrawalProcess(WithDrawDTO withDrawDTO)
     {
 
-        Product investmentProduct =  productRepository.findByName(productName);
+        Product investmentProduct =  productRepository.findByName(withDrawDTO.getName());
         Customer investor = customerRepository.findAll().get(0);
         long balance = 0;
-        withdrawalLogic(withdrawalAmount, investmentProduct,investor,balance);
+        withdrawalLogic(withDrawDTO.getAmount(), investmentProduct,investor,balance);
 
 
     }
-
-
 
     public void sendNotification(Customer customer, Product investment, long withdrawalAmount, long balance){
         try {
@@ -46,7 +46,7 @@ public class WithdrawalNoticeServiceImpl implements WithdrawalNoticeService {
             simpleMailMessage.setSubject("Withdrawal Notice");
             simpleMailMessage.setText("PreWithdrawal Balance: "+ investment.getBalance() + '\n'+ "WithdrawalAmount: "+withdrawalAmount + '\n' + "Closing Balance: "+ balance);
             emailService.sendEmail(simpleMailMessage);
-        }catch (Exception e){
+        }catch (RuntimeException e){
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage(),e);
         }
     }
@@ -69,6 +69,11 @@ public class WithdrawalNoticeServiceImpl implements WithdrawalNoticeService {
         }catch (RuntimeException ex){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(),ex);
         }
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 
