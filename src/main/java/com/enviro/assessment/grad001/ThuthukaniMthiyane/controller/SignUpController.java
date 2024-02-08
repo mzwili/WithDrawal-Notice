@@ -1,21 +1,32 @@
 package com.enviro.assessment.grad001.ThuthukaniMthiyane.controller;
 
+import com.enviro.assessment.grad001.ThuthukaniMthiyane.dto.InvestDTO;
+import com.enviro.assessment.grad001.ThuthukaniMthiyane.dto.SignInDTO;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.dto.SignUpDTO;
+import com.enviro.assessment.grad001.ThuthukaniMthiyane.entity.Product;
+import com.enviro.assessment.grad001.ThuthukaniMthiyane.service.ProductServiceImpl;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.service.UserServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class SignUpController {
 
     @Autowired
     private UserServiceImpl userServiceImpl;
-    @PostMapping(value = "/signup", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    public ResponseEntity<String> userSignUp(SignUpDTO signUp){
+
+    @Autowired
+    private ProductServiceImpl productServiceImpl;
+    @PostMapping("/signup")
+    public ResponseEntity<String> userSignUp(@Valid @RequestBody SignUpDTO signUp){
         try {
             userServiceImpl.save(signUp);
             return new ResponseEntity<>("User SignUp successfull", HttpStatus.OK);
@@ -24,4 +35,26 @@ public class SignUpController {
         }
 
     }
+
+    @PostMapping("/signin")
+    public ResponseEntity<String> customerLoginIn(@Valid @RequestBody SignInDTO userLogin){
+        try {
+            userServiceImpl.userLogin(userLogin);
+            return new ResponseEntity<>("Successfully LoggedIn", HttpStatus.OK);
+        }catch (RuntimeException ex){
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/newinvestment")
+    public ResponseEntity<String> createInvestment(@Valid @RequestBody InvestDTO investDTO){
+        try {
+            productServiceImpl.createProduct(investDTO);
+            return new ResponseEntity<>("Successfully created",HttpStatus.CREATED);
+        }catch (RuntimeException ex){
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
 }

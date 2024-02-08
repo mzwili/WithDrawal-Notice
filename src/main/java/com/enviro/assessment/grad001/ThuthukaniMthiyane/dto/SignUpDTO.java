@@ -1,12 +1,24 @@
 package com.enviro.assessment.grad001.ThuthukaniMthiyane.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 public class SignUpDTO {
 
+    @NotBlank(message = "name is blank")
     private String fullName;
+    @NotBlank(message = "age is blank")
     private String age;
+    @Email(message = "Email invalid")
     private String email;
+    @NotBlank(message = "Contact is blank")
     private String contactNumber;
+
+    @NotBlank(message = "Password is blank")
     private String password;
+    @NotBlank(message = "ConfirmPass is blank")
     private String confirmationPassword;
 
 

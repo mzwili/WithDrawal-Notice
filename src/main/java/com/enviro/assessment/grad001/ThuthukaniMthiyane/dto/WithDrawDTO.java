@@ -1,10 +1,19 @@
 package com.enviro.assessment.grad001.ThuthukaniMthiyane.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class WithDrawDTO {
+    @NotBlank(message = "Name is blank")
     private String name;
+
+    @NotNull(message = "Amount is blank")
     private long amount;
+    @NotBlank(message = "Date is blank")
     private String date;
+    @NotBlank(message = "BankName is blank")
     private String bankName;
+    @NotNull(message = "BankAccountNumber is blank")
     private long bankAccountNumber;
 
     public String getName() {

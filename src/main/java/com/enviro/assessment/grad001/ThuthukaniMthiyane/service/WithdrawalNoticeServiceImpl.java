@@ -28,15 +28,12 @@ public class WithdrawalNoticeServiceImpl implements WithdrawalNoticeService {
 
 
     @Override
-    public void withdrawalProcess(WithDrawDTO withDrawDTO)
-    {
-
+    public void withdrawalProcess(WithDrawDTO withDrawDTO) {
         Product investmentProduct =  productRepository.findByName(withDrawDTO.getName());
+        //use token to get email
         Customer investor = customerRepository.findAll().get(0);
         long balance = 0;
         withdrawalLogic(withDrawDTO.getAmount(), investmentProduct,investor,balance);
-
-
     }
 
     public void sendNotification(Customer customer, Product investment, long withdrawalAmount, long balance){

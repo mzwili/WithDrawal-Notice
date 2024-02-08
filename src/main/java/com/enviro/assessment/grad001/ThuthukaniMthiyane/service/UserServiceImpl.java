@@ -1,13 +1,11 @@
 package com.enviro.assessment.grad001.ThuthukaniMthiyane.service;
 
+import com.enviro.assessment.grad001.ThuthukaniMthiyane.dto.SignInDTO;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.dto.SignUpDTO;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.entity.Customer;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.interfaces.UserService;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.repository.CustomerRepository;
-import com.enviro.assessment.grad001.ThuthukaniMthiyane.validations.AgeValidation;
-import com.enviro.assessment.grad001.ThuthukaniMthiyane.validations.ContactNumberValidation;
-import com.enviro.assessment.grad001.ThuthukaniMthiyane.validations.EmailValidator;
-import com.enviro.assessment.grad001.ThuthukaniMthiyane.validations.PasswordValidator;
+import com.enviro.assessment.grad001.ThuthukaniMthiyane.validations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,6 +20,7 @@ public class UserServiceImpl implements UserService {
     private PasswordValidator passwordValidator;
     private AgeValidation ageValidation;
     private ContactNumberValidation contactNumberValidation;
+    private FullNameValidation fullNameValidation;
     @Autowired
     private EmailService emailService;
     @Autowired
@@ -36,6 +35,7 @@ public class UserServiceImpl implements UserService {
         passwordValidator = new PasswordValidator();
         ageValidation = new AgeValidation();
         contactNumberValidation = new ContactNumberValidation();
+        fullNameValidation = new FullNameValidation();
 
         try {
             if (customerRepository.existsByEmail(signUpDTO.getEmail())) {
@@ -85,4 +85,20 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Error at setCustomerDetails " +ex.getMessage());
         }
     }
+
+    @Override
+    public void userLogin(SignInDTO signUpDTO){
+        String userEmail = signUpDTO.getEmail();
+        Customer customer = customerRepository.findByEmail(userEmail);
+        try {
+            if(!customer.getEmail().equals(signUpDTO.getEmail())){
+                throw new RuntimeException("Customer not registered");
+            }else if(!bCryptPasswordEncoder.matches(signUpDTO.getPassword(), customer.getPassword())){
+                throw new RuntimeException("Wrong Password");
+            }
+        }catch (RuntimeException e){
+            throw  new RuntimeException(e.getMessage());
+        }
+    }
+
 }

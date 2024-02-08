@@ -8,12 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     CustomerRepository customerRepository;
-
+    // use token to generate customer
     @Override
     public Customer getCustomer() {
         //still going to change to make it more dynamic

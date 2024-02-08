@@ -6,6 +6,7 @@ import com.enviro.assessment.grad001.ThuthukaniMthiyane.entity.Product;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.service.CustomerServiceImpl;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.service.ProductServiceImpl;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.service.WithdrawalNoticeServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -44,14 +45,15 @@ public class WithdrawalNoticeController {
         }
     }
 
-    @PostMapping(value = "/notice", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    public ResponseEntity<String> noticeNotification(WithDrawDTO withdrawal){
+    @PostMapping("/notice")
+    public ResponseEntity<String> noticeNotification(@Valid @RequestBody WithDrawDTO withdrawal){
        try {
            withdrawalNoticeServiceImpl.withdrawalProcess(withdrawal);
+           return new ResponseEntity<>("Notification Sent", HttpStatus.OK);
        }catch (RuntimeException ex){
           return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
        }
-        return new ResponseEntity<>("Notification Sent", HttpStatus.OK);
+
     }
 
 
