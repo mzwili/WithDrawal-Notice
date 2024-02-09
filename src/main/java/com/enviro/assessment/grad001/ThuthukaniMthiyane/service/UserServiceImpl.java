@@ -5,16 +5,22 @@ import com.enviro.assessment.grad001.ThuthukaniMthiyane.dto.SignUpDTO;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.entity.Customer;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.interfaces.UserService;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.repository.CustomerRepository;
+import com.enviro.assessment.grad001.ThuthukaniMthiyane.security.PasswordEncryptor;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.validations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
     private Customer customer;
     private EmailValidator emailValidator;
     private PasswordValidator passwordValidator;
@@ -25,8 +31,7 @@ public class UserServiceImpl implements UserService {
     private EmailService emailService;
     @Autowired
     private CustomerRepository customerRepository;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncryptor passwordEncryptor = new PasswordEncryptor();
 
 
     @Override
@@ -49,6 +54,8 @@ public class UserServiceImpl implements UserService {
                 throw new RuntimeException("You are under age");
             }else if(!contactNumberValidation.validateContact(signUpDTO)){
                 throw new RuntimeException("Contact number not valid");
+            }else if(!fullNameValidation.validateName(signUpDTO)){
+                throw new RuntimeException("Error! e.g -> name surname");
             }else{
                 customer = new Customer();
                 setCustomerDetail(signUpDTO);
@@ -80,7 +87,7 @@ public class UserServiceImpl implements UserService {
             customer.setEmail(sigUpData.getEmail());
             customer.setAge(Integer.parseInt(sigUpData.getAge()));
             customer.setContactNumber(sigUpData.getContactNumber());
-            customer.setPassword(bCryptPasswordEncoder.encode(sigUpData.getPassword()));
+            customer.setPassword(passwordEncryptor.passwordEncoder().encode(sigUpData.getPassword()));
         }catch (RuntimeException ex){
             throw new RuntimeException("Error at setCustomerDetails " +ex.getMessage());
         }
@@ -88,17 +95,31 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void userLogin(SignInDTO signUpDTO){
-        String userEmail = signUpDTO.getEmail();
-        Customer customer = customerRepository.findByEmail(userEmail);
+
         try {
+            Customer customer = customerRepository.findByEmail(signUpDTO.getEmail());
             if(!customer.getEmail().equals(signUpDTO.getEmail())){
                 throw new RuntimeException("Customer not registered");
-            }else if(!bCryptPasswordEncoder.matches(signUpDTO.getPassword(), customer.getPassword())){
+            }else if(!passwordEncryptor.passwordEncoder().matches(signUpDTO.getPassword(), customer.getPassword())){
                 throw new RuntimeException("Wrong Password");
             }
         }catch (RuntimeException e){
             throw  new RuntimeException(e.getMessage());
         }
     }
+
+    public Customer investor(){
+        return this.customer;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        if(customer.getEmail().equals(username)){
+            return new User(username, passwordEncryptor.passwordEncoder().encode(customer.getPassword()), new ArrayList<>());
+        }else {
+            throw new UsernameNotFoundException(username);
+        }
+    }
+
 
 }

@@ -3,28 +3,25 @@ package com.enviro.assessment.grad001.ThuthukaniMthiyane.controller;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.dto.InvestDTO;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.dto.SignInDTO;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.dto.SignUpDTO;
-import com.enviro.assessment.grad001.ThuthukaniMthiyane.entity.Product;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.service.ProductServiceImpl;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.service.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
-public class SignUpController {
+public class AuthController {
 
     @Autowired
     private UserServiceImpl userServiceImpl;
 
     @Autowired
     private ProductServiceImpl productServiceImpl;
+
     @PostMapping("/signup")
     public ResponseEntity<String> userSignUp(@Valid @RequestBody SignUpDTO signUp){
         try {

@@ -13,16 +13,16 @@ import org.springframework.web.server.ResponseStatusException;
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
-    CustomerRepository customerRepository;
-    // use token to generate customer
-    @Override
-    public Customer getCustomer() {
+    private CustomerRepository customerRepository;
+
+    public Customer getCustomer(String email) {
         //still going to change to make it more dynamic
         try {
-            return this.customerRepository.findAll().get(0);
+            return this.customerRepository.findByEmail(email);
 
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(),e);
         }
     }
+
 }

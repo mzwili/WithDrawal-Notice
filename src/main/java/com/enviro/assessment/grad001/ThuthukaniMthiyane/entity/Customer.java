@@ -1,9 +1,6 @@
 package com.enviro.assessment.grad001.ThuthukaniMthiyane.entity;
 
 import jakarta.persistence.*;
-import com.enviro.assessment.grad001.ThuthukaniMthiyane.entity.Product;
-
-import java.util.List;
 
 @Entity
 @Table(name = "investor")
@@ -20,18 +17,6 @@ public class Customer {
 
     private String password;
 
-
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
-//    private List<Product> customerProducts;
-
-
-//    public List<Product> getCustomerProducts() {
-//        return customerProducts;
-//    }
-//
-//    public void setCustomerProducts(List<Product> customerProducts) {
-//        this.customerProducts = customerProducts;
-//    }
 
     public int getId() {
         return id;

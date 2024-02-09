@@ -1,10 +1,8 @@
 package com.enviro.assessment.grad001.ThuthukaniMthiyane.service;
 
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.dto.InvestDTO;
-import com.enviro.assessment.grad001.ThuthukaniMthiyane.entity.Customer;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.entity.Product;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.interfaces.ProductService;
-import com.enviro.assessment.grad001.ThuthukaniMthiyane.repository.CustomerRepository;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,8 +16,6 @@ public class ProductServiceImpl implements ProductService{
 
     @Autowired
     private ProductRepository productRepository;
-    @Autowired
-    private CustomerRepository customerRepository;
 
     private Product newProduct;
 
@@ -42,8 +38,6 @@ public class ProductServiceImpl implements ProductService{
        }catch (RuntimeException ex){
            throw new RuntimeException("Create Product Error "+ex.getMessage());
        }
-
-
 
     }
 

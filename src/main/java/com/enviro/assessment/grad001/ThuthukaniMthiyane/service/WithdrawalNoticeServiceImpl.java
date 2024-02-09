@@ -7,10 +7,8 @@ import com.enviro.assessment.grad001.ThuthukaniMthiyane.interfaces.WithdrawalNot
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.repository.CustomerRepository;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,10 +26,13 @@ public class WithdrawalNoticeServiceImpl implements WithdrawalNoticeService {
 
 
     @Override
-    public void withdrawalProcess(WithDrawDTO withDrawDTO) {
+    public void withdrawalProcess(WithDrawDTO withDrawDTO, String email) {
         Product investmentProduct =  productRepository.findByName(withDrawDTO.getName());
+        if(!investmentProduct.getName().equalsIgnoreCase(withDrawDTO.getName())){
+            throw new RuntimeException("Investment does not exist!");
+        }
         //use token to get email
-        Customer investor = customerRepository.findAll().get(0);
+        Customer investor = customerRepository.findByEmail(email);
         long balance = 0;
         withdrawalLogic(withDrawDTO.getAmount(), investmentProduct,investor,balance);
     }
@@ -68,10 +69,7 @@ public class WithdrawalNoticeServiceImpl implements WithdrawalNoticeService {
         }
     }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
 
 
 }

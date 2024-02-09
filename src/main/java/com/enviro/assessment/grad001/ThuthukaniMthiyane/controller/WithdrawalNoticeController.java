@@ -5,11 +5,11 @@ import com.enviro.assessment.grad001.ThuthukaniMthiyane.entity.Customer;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.entity.Product;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.service.CustomerServiceImpl;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.service.ProductServiceImpl;
+import com.enviro.assessment.grad001.ThuthukaniMthiyane.service.UserServiceImpl;
 import com.enviro.assessment.grad001.ThuthukaniMthiyane.service.WithdrawalNoticeServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +20,8 @@ import java.util.List;
 public class WithdrawalNoticeController {
 
     @Autowired
+    private UserServiceImpl currentUser;
+    @Autowired
     private ProductServiceImpl productServiceImpl;
     @Autowired
     private CustomerServiceImpl  customerServiceImpl;
@@ -29,10 +31,11 @@ public class WithdrawalNoticeController {
 
     @GetMapping("/details")
     public ResponseEntity<Customer> getUserDetails(){
+        Customer customer = customerServiceImpl.getCustomer(currentUser.investor().getEmail());
         try {
-            return  new ResponseEntity<>(customerServiceImpl.getCustomer(), HttpStatus.OK);
+            return  new ResponseEntity<>(customer, HttpStatus.OK);
         }catch (RuntimeException e){
-            return new ResponseEntity<>(customerServiceImpl.getCustomer(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(customer, HttpStatus.NOT_FOUND);
         }
 
     }
@@ -48,7 +51,7 @@ public class WithdrawalNoticeController {
     @PostMapping("/notice")
     public ResponseEntity<String> noticeNotification(@Valid @RequestBody WithDrawDTO withdrawal){
        try {
-           withdrawalNoticeServiceImpl.withdrawalProcess(withdrawal);
+           withdrawalNoticeServiceImpl.withdrawalProcess(withdrawal, currentUser.investor().getEmail());
            return new ResponseEntity<>("Notification Sent", HttpStatus.OK);
        }catch (RuntimeException ex){
           return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
