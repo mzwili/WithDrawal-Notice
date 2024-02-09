@@ -20,7 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService, UserDetailsService{
     private Customer customer;
     private EmailValidator emailValidator;
     private PasswordValidator passwordValidator;
@@ -94,22 +94,34 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void userLogin(SignInDTO signUpDTO){
+    public void userLogin(SignInDTO signInDTO){
 
         try {
-            Customer customer = customerRepository.findByEmail(signUpDTO.getEmail());
-            if(!customer.getEmail().equals(signUpDTO.getEmail())){
+            Customer customer = customerRepository.findByEmail(signInDTO.getEmail());
+            customer.setToken(signInDTO.getToken());
+            if(!customer.getEmail().equals(signInDTO.getEmail())){
                 throw new RuntimeException("Customer not registered");
-            }else if(!passwordEncryptor.passwordEncoder().matches(signUpDTO.getPassword(), customer.getPassword())){
+            }else if(!passwordEncryptor.passwordEncoder().matches(signInDTO.getPassword(), customer.getPassword())){
                 throw new RuntimeException("Wrong Password");
             }
         }catch (RuntimeException e){
             throw  new RuntimeException(e.getMessage());
         }
+        customerRepository.save(customer);
     }
 
     public Customer investor(){
         return this.customer;
+    }
+
+
+    public Customer findCustomer(String email) throws UsernameNotFoundException {
+        Customer customer1 = customerRepository.findByEmail(email);
+        if(customer1 != null){
+            return customer1;
+        }else {
+            throw new RuntimeException("Customer not found!");
+        }
     }
 
     @Override
@@ -120,6 +132,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
     }
-
 
 }

@@ -7,6 +7,19 @@ public class SignInDTO {
     @Email(message = "Email invalid")
     private String email;
 
+    @NotBlank(message = "Password is blank")
+    private String password;
+
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -23,6 +36,5 @@ public class SignInDTO {
         this.password = password;
     }
 
-    @NotBlank(message = "Password is blank")
-    private String password;
+
 }

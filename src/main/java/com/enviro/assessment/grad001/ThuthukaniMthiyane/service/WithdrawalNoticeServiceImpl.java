@@ -24,17 +24,15 @@ public class WithdrawalNoticeServiceImpl implements WithdrawalNoticeService {
     @Autowired
     EmailService emailService;
 
-
     @Override
     public void withdrawalProcess(WithDrawDTO withDrawDTO, String email) {
         Product investmentProduct =  productRepository.findByName(withDrawDTO.getName());
         if(!investmentProduct.getName().equalsIgnoreCase(withDrawDTO.getName())){
             throw new RuntimeException("Investment does not exist!");
         }
-        //use token to get email
         Customer investor = customerRepository.findByEmail(email);
-        long balance = 0;
-        withdrawalLogic(withDrawDTO.getAmount(), investmentProduct,investor,balance);
+
+        withdrawalLogic(withDrawDTO.getAmount(), investmentProduct,investor);
     }
 
     public void sendNotification(Customer customer, Product investment, long withdrawalAmount, long balance){
@@ -49,8 +47,9 @@ public class WithdrawalNoticeServiceImpl implements WithdrawalNoticeService {
         }
     }
 
-    public void withdrawalLogic(long amount, Product product, Customer investor, long balance){
+    public void withdrawalLogic(long amount, Product product, Customer investor){
         try {
+            long balance;
             long balance90 = (long) (product.getBalance() * 0.9f);
             if(amount > product.getBalance()){
                 throw new RuntimeException("InSufficient Funds");

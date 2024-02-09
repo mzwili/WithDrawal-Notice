@@ -17,6 +17,8 @@ public class Customer {
 
     private String password;
 
+    private String token;
+
 
     public int getId() {
         return id;
@@ -65,6 +67,14 @@ public class Customer {
 
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
 }
