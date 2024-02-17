@@ -18,7 +18,7 @@ This project is a Spring Boot application for managing withdrawal notices.
 
 ## Introduction
 
-This Spring Boot project is designed for handling withdrawal notices. It leverages various technologies, including Spring Boot, Spring Data JPA, Thymeleaf, and more.
+This project allows users to signup, signin add an investements product, view their details, investments and send a withdrawal notice.
 
 ## Technologies
 
